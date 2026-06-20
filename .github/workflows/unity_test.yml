@@ -1,7 +1,5 @@
 name: Actions 😎
-
 on: [push, pull_request]
-
 jobs:
   test:
     name: Test my project 🧪
@@ -12,15 +10,13 @@ jobs:
         uses: actions/checkout@v4
         with:
           lfs: true
-
       # Cache
       - uses: actions/cache@v4
         with:
-          path: Library
-          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          path: UEPT.Unity/Library
+          key: Library-${{ hashFiles('UEPT.Unity/Assets/**', 'UEPT.Unity/Packages/**', 'UEPT.Unity/ProjectSettings/**') }}
           restore-keys: |
             Library-
-
       # Test
       - name: Run tests
         uses: game-ci/unity-test-runner@v4
@@ -30,7 +26,7 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-
+          projectPath: UEPT.Unity
   build:
     name: Build my project ✨
     runs-on: ubuntu-latest
@@ -40,15 +36,13 @@ jobs:
         uses: actions/checkout@v4
         with:
           lfs: true
-
       # Cache
       - uses: actions/cache@v4
         with:
-          path: Library
-          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          path: UEPT.Unity/Library
+          key: Library-${{ hashFiles('UEPT.Unity/Assets/**', 'UEPT.Unity/Packages/**', 'UEPT.Unity/ProjectSettings/**') }}
           restore-keys: |
             Library-
-
       # Build
       - name: Build project
         uses: game-ci/unity-builder@v4
@@ -59,7 +53,7 @@ jobs:
         with:
           targetPlatform: StandaloneWindows64
           allowDirtyBuild: true
-
+          projectPath: UEPT.Unity
       # Output
       - uses: actions/upload-artifact@v4
         with:
